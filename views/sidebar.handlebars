@@ -1,0 +1,41 @@
+{{!-- TODO: make a pretty list --}}
+<div class="row">
+  <h3>Notifications:</h3>
+  <pre style="text-align: left" id="list"></pre>
+</div>
+
+<script src="//code.jquery.com/jquery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="javascripts/underscore-min.js"></script>
+<script type="text/javascript" src="javascripts/github.js"></script>
+<script type="text/javascript">
+var token = '{{{token}}}';
+</script>
+<script type="text/javascript">
+$(function() {
+  // function renderList(list) {
+  //   var list = "<% _.each(notifications, function(item) { %> <li><%= name %></li> <% }); %>";
+  //   _.template(list, {people: ['moe', 'curly', 'larry']});
+  // }
+  var pp = function(o) { return JSON.stringify(o,null,'  '); };
+
+  var gh = new Github({
+    token: window.token,
+    auth: 'oauth'
+  });
+
+  var user = gh.getUser();
+
+  user.notifications(function(err, result) {
+    if (err) throw err;
+    var list = _.map(result, function(item) {
+      var _ret = item.subject;
+      _ret.repo_name = item.repository.full_name;
+      _ret.repo_url = item.repository.url;
+      return _ret;
+    });
+
+    $('#list').html(pp(list));
+  });
+});
+</script>

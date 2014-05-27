@@ -1,0 +1,9 @@
+<script>
+var state = '{{{state}}}';
+
+$(function() {
+  var redirect = 'http://'+location.host+'/oauth';
+  var auth_link = "https://github.com/login/oauth/authorize?client_id=1320508642a629283d2d&redirect_uri="+redirect+'&state='+state+'&scope=notifications';
+  $('#login-btn').attr('href', auth_link);
+});
+</script>
