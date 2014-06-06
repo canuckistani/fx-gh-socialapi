@@ -1,6 +1,10 @@
 body {
-  padding: 50px;
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.container {
+  padding: 0;
 }
 
 a {
@@ -9,4 +13,8 @@ a {
 
 body > div.container {
   margin-top 60px;
+}
+
+div.row {
+  text-align: center;
 }

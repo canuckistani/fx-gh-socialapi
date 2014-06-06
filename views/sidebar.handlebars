@@ -25,6 +25,7 @@ $(function() {
   });
 
   var user = gh.getUser();
+  var fetch_date = Date().now;
 
   user.notifications(function(err, result) {
     if (err) throw err;
@@ -34,6 +35,9 @@ $(function() {
       _ret.repo_url = item.repository.url;
       return _ret;
     });
+
+    var count = list.length;
+    
 
     $('#list').html(pp(list));
   });

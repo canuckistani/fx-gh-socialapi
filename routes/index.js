@@ -1,16 +1,10 @@
-var crypto = require('crypto');
-var escape = require("querystring").escape;
-
-var pp = function(o) { return JSON.stringify(o,null,'  '); };
+var crypto = require('crypto')
+  , escape = require("querystring").escape;
 
 /* GET home page. */
 exports.index = function(req, res) {
 
   var sess = req.session;
-
-  if (!sess.oauthToken) {
-    res.redirect('/login');
-  }
 
   res.render('index', {
     title: 'Github Social Plugin'
@@ -30,8 +24,21 @@ exports.logout = function(req, res) {
 
 exports.sidebar = function(req, res) {
   var sess = req.session;
-  res.render('sidebar', {
-    title: '',
+  if (sess.oauthToken) {
+    res.render('sidebar', {
+      title: 'Social Coding Sidebar',
+      token: sess.oauthToken
+    });
+  }
+  else {
+    res.redirect('/login');  
+  }
+};
+
+exports.install = function(req, res) {
+  var sess = req.session;
+  res.render('install', {
+    title: 'Install the Social Coding sidebar.',
     token: sess.oauthToken
   });
-};
+}

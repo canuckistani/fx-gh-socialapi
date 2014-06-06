@@ -54,6 +54,7 @@ app.get('/login', routes.login);
 app.get('/logout', routes.logout);
 app.get('/oauth', oauth.oauth);
 app.get('/sidebar', routes.sidebar);
+app.get('/install', routes.install);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
