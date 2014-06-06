@@ -11,10 +11,17 @@ a {
   color: #00B7FF;
 }
 
-body > div.container {
-  margin-top 60px;
+.row {
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 30px;  
 }
 
-div.row {
+.logo {
+  margin-right: 12px;
+  margin-bottom: 6px;
+}
+
+.install-main .row {
   text-align: center;
 }

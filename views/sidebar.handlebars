@@ -1,22 +1,28 @@
 {{!-- TODO: make a pretty list --}}
-<div class="row">
-  <h3>Notifications:</h3>
-  <pre style="text-align: left" id="list"></pre>
+<div style="text-align: left" class="row">
+  <h3><img class="logo" src="images/github32.png">Notifications</h3>
+  {{!-- <pre style="text-align: left" id="list"></pre> --}}
+  <ul class="list-group">
+     {{!-- <li class="list-group-item">Free Domain Name Registration</li> --}}
+
+  </ul>
 </div>
 
 <script src="//code.jquery.com/jquery.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="javascripts/underscore-min.js"></script>
-<script type="text/javascript" src="javascripts/github.js"></script>
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript" src="js/github.js"></script>
 <script type="text/javascript">
 var token = '{{{token}}}';
 </script>
+
 <script type="text/javascript">
+var data;
 $(function() {
-  // function renderList(list) {
-  //   var list = "<% _.each(notifications, function(item) { %> <li><%= name %></li> <% }); %>";
-  //   _.template(list, {people: ['moe', 'curly', 'larry']});
-  // }
+  function renderList(list) {
+    var _tpl = "<% _.each(notifications, function(item) { %> <li class=\"list-group-item\"><%= item.title %></li> <% }); %>";
+    return _.template(_tpl, {notifications: list});
+  }
   var pp = function(o) { return JSON.stringify(o,null,'  '); };
 
   var gh = new Github({
@@ -37,9 +43,11 @@ $(function() {
     });
 
     var count = list.length;
-    
+    data = list;
 
-    $('#list').html(pp(list));
+    // $('#list').html(pp(list));
+    $('.list-group').html(renderList(list));
+    console.log(list);
   });
 });
 </script>
