@@ -11,20 +11,10 @@ Current status:
 * nice-looking sidebar
 ** use different base layout &#10003;
 ** compact design &#10003;
-* Sidebar-based Auth:
-** TODO: pop-up auth window?
+* Sidebar-based Auth &#10003;
 
-
-
-### Better flow
-
-* index page
-** look for session, do auth flow
-** show install button
-* sidebar
-** if no session, links to open auth in main page
-** if session, shows notifications
-
-
-
-
+TODO:
+* toolbar icon with notification count
+* update on view of an issue / PRD (?)
+** some kind of poll, or some other way of getting update from github?
+* how do we know on / if /sidebar is active?
