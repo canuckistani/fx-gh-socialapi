@@ -4,7 +4,7 @@ var client_config = require('../config');
 exports.oauth = function(req, res) {
 
   if (req.session.oauthToken) {
-    res.redirect('/sidebar');
+    res.redirect('/');
   }
 
   var code = req.query.code,
@@ -45,6 +45,6 @@ exports.oauth = function(req, res) {
 
     // res.render('oauth', vars);
 
-    res.redirect('/sidebar');
+    res.redirect('/');
   });
 };

@@ -5,10 +5,15 @@ var crypto = require('crypto')
 exports.index = function(req, res) {
 
   var sess = req.session;
+  if (sess.oauthToken) {
+    res.render('index', {
+      title: 'Github Social Plugin'
+    });    
+  }
+  else {
+    res.redirect('/login');
+  }
 
-  res.render('index', {
-    title: 'Github Social Plugin'
-  });
 };
 /* GET login page. */
 exports.login = function(req, res) {
@@ -31,7 +36,7 @@ exports.sidebar = function(req, res) {
     });
   }
   else {
-    res.redirect('/login');  
+    res.render('login-sidebar');  
   }
 };
 
