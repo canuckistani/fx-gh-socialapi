@@ -1,5 +1,6 @@
 {{!-- TODO: make a pretty list --}}
 <div style="text-align: left" class="row">
+  <button id="reload-btn" type="button" class="btn btn-xs btn-default">Reload</button>
   <h3><img class="logo" src="images/github32.png">Notifications</h3>
   {{!-- <pre style="text-align: left" id="list"></pre> --}}
   <ul class="list-group">
@@ -11,6 +12,7 @@
 <script src="//code.jquery.com/jquery.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
 <script type="text/javascript" src="js/github.js"></script>
 <script type="text/javascript">
 var token = '{{{token}}}';
@@ -19,10 +21,13 @@ var token = '{{{token}}}';
 <script type="text/javascript">
 var data;
 $(function() {
-  function renderList(list) {
-    var _tpl = "<% _.each(notifications, function(item) { %> <li class=\"list-group-item\"><%= item.title %></li> <% }); %>";
-    return _.template(_tpl, {notifications: list});
-  }
+  // XXX dev only
+  $('#reload-btn').click( function() { document.location = document.location; } );
+
+  var source = $('#notifications-list-tpl').html();
+  console.log(source);
+  var template = Handlebars.compile(source);
+
   var pp = function(o) { return JSON.stringify(o,null,'  '); };
 
   var gh = new Github({
@@ -33,21 +38,35 @@ $(function() {
   var user = gh.getUser();
   var fetch_date = Date().now;
 
+  // https://github.com/mozilla/addon-sdk/pull/1507
+
   user.notifications(function(err, result) {
     if (err) throw err;
-    var list = _.map(result, function(item) {
+    console.log(result);
+    var list = _.unique(_.map(result, function(item) {
+      // if (item.subject.type === 'PullRequest') {
+      //   return null;
+      // }
       var _ret = item.subject;
       _ret.repo_name = item.repository.full_name;
       _ret.repo_url = item.repository.url;
+      if (!_ret.html_url) {
+        _ret.html_url = item.repository.html_url + '/pull/' + _ret.url.split('/').pop();
+      }
       return _ret;
-    });
+    }));
 
     var count = list.length;
     data = list;
 
     // $('#list').html(pp(list));
-    $('.list-group').html(renderList(list));
-    console.log(list);
+    $('.list-group').html(template({notifications: list}));
+    // console.log(list);
   });
 });
+</script>
+<script type="text/x-handlebars-template" id="notifications-list-tpl">
+\{{#each notifications}}
+  <li class="list-group-item"><a href="\{{html_url}}">\{{title}}</a><br><em>\{{repo_name}}</em></li>
+\{{/each}}
 </script>
